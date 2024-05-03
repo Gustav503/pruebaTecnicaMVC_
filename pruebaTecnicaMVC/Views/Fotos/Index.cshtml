@@ -1,0 +1,61 @@
+﻿@model IEnumerable<pruebaTecnicaMVC.Models.Foto>
+
+@{
+    ViewBag.Title = "Fotos";
+}
+
+<h2>Fotos</h2>
+
+<div class="row">
+    @foreach (var foto in Model)
+    {
+        <div class="col-md-3">
+            <h4>@foto.Title</h4>
+            <a href="@foto.Url" target="_blank">
+                <img src="@foto.ThumbnailUrl" alt="@foto.Title" />
+            </a>
+        </div>
+    }
+</div>
+
+<form asp-action="Index">
+    <div>
+        <label class="form-label">Pagina actual @(ViewBag.paginaActual)</label>
+        @if (ViewBag.paginaActual > 1)
+        {
+            <button name="pagina" type="submit" value="@(ViewBag.paginaActual - 1)" class="btn btn-success">Anterior</button>
+        }
+        @if (ViewBag.paginaActual < ViewBag.paginasTotal)
+        {
+            <button name="pagina" type="submit" value="@(ViewBag.paginaActual + 1)" class="btn btn-info">Siguiente</button>
+        }
+    </div>
+</form>
+
+<form asp-action="Index">
+    <div class="row">
+        <div class="col-md-3">
+            <label for="tamañoPagina" class="form-label">Elementos por página:</label>
+            <input type="number" id="tamañoPagina" name="tamaño" value="@ViewBag.tamañoPagina" class="form-control">
+        </div>
+        <div class="col-md-3">
+            <label for="numeroPagina" class="form-label">Página:</label>
+            <select id="numeroPagina" name="pagina" class="form-control">
+                @for (int i = 1; i <= ViewBag.paginasTotal; i++)
+                {
+                    if (i != ViewBag.paginaActual) {
+                        <option value="@i">@i</option>
+                    }
+                    else {
+                        <option selected value="@i">@i</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="col-md-2">
+            <br />
+            <button type="submit" value="" class="btn btn-primary">Ir</button>
+        </div>
+    </div>
+</form>
+
